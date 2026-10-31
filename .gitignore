@@ -1,2 +1,9 @@
 /.vscode/
-*.out
+# 1. Ignore everything
+*
+
+# 2. But do not ignore directories (so Git can still look inside them)
+!*/
+
+# 3. And do not ignore any files that contain a dot (files with extensions)
+!*.cpp
