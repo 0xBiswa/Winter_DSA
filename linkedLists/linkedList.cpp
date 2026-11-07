@@ -1,76 +1,70 @@
 #include <iostream>
 using namespace std;
-class Node{
-    public:
-        int data;
-        Node* next;
-    Node(int value){
-        data = value;
-        next=nullptr;
-    }
+struct linkedList
+{
+    int data;
+    linkedList* next;
+    linkedList(): data(0),next(nullptr){}
+    linkedList(int x): data(x),next(nullptr){}
 };
-class LinkedList{
-    private:
-        Node* head;
-    public: 
-    
-    LinkedList(){
-        head = nullptr;
+linkedList* head;
+void insert(int data){
+    linkedList* curr = head;
+    if(head == nullptr){
+        head = new linkedList(data);
+        return;
     }
-    void addFirst(int data){
-        if(head == nullptr){
-            head = new Node(data);
-            return ;
-        }
+    while(curr-> next != nullptr){
+        curr=curr->next;
+    }
+    curr->next=new linkedList(data);
+}
+void display(){
+    linkedList* curr = head;
+    cout << "+ + + + + + + + + + + + + + + + + + + + + + +" <<endl;
+    if(curr==nullptr)
+        cout << "Empty List" <<endl;
+    while(curr!=nullptr){
+        cout << curr->data <<endl;
+        curr = curr->next;
+    }
+    cout << "+ + + + + + + + + + + + + + + + + + + + + + +" <<endl;
+}
 
-        Node* newNode = new Node(data);
-        newNode->next = head;
-        head = newNode;
-        return ;
+void deleteNode(linkedList* Node){
+    linkedList* curr = head;
+    if(Node == head){
+        head=head->next;              
+        return;
     }
-    void displayList(){
-        Node* curr = head;
-        // cout << curr;
-        while(curr != nullptr){
-            cout << curr->data << endl;
-            curr=curr->next;
+    while (curr != nullptr)
+    {
+        if(curr->next == Node){
+            linkedList *n = curr->next;
+            curr->next=n->next;
+            cout << "Node Deleted Sucessfully"<<endl;
+            return;
         }
+        curr=curr->next;
     }
-    void insert(int data){
-        Node* curr = head;
-        while(curr->next!=nullptr){
-            curr=curr->next;
+}
+linkedList* search(int data){
+    linkedList* curr = head;
+    while(curr!=nullptr){
+        if(curr->data==data){
+            return curr;
         }
-        if(curr != nullptr && curr->next==nullptr){
-            Node* newNode = new Node(data);
-            curr->next=newNode;
-        }
+        curr = curr->next;
     }
-    bool search(int target){
-        Node* curr = head;
-        while(curr!=nullptr){
-            if(curr->data == target){
-                return true;
-            }
-            curr = curr->next;
-        }
-        return false;
- 
-    }
-    
-};
-
+    return curr;
+}
 int main(){
-    LinkedList ll;
-    ll.addFirst(10);
-    ll.insert(20);
-    ll.addFirst(30);
-    ll.addFirst(40);
-    ll.insert(50);
-
-    ll.displayList();
-
-    cout << ll.search(50)<<endl;
-    cout << ll.search(75)<<endl;
+    insert(11);
+    insert(22);
+    display();
+    deleteNode(search(11));
+    display();
+    insert(33);
+    display();
     return 0;
 }
